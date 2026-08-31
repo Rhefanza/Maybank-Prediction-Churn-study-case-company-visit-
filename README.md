@@ -1,85 +1,52 @@
-# Maybank-Prediction-Churn-study-case-company-visit-
-Berikut adalah draf **README.md** yang profesional dan terstruktur untuk proyek analisis churn nasabah bank tersebut. File ini dirancang untuk menjelaskan alur kerja teknis Anda, mulai dari pengolahan data hingga hasil model machine learning.
+# Bank Customer Churn Prediction
 
----
+Studi kasus machine learning untuk mengidentifikasi nasabah yang berpotensi churn berdasarkan profil, aktivitas, kepemilikan produk, dan saldo.
 
-# Bank Customer Churn Prediction 🚀
+## Tujuan
 
-Proyek ini bertujuan untuk membangun model prediksi **Customer Churn** (kemungkinan nasabah berhenti berlangganan) menggunakan dataset perbankan yang berisi informasi profil nasabah, kepemilikan produk, dan saldo.
+Membangun pipeline klasifikasi yang membantu memprioritaskan nasabah berisiko sehingga intervensi retensi dapat dilakukan lebih tepat sasaran.
 
-## 📌 Gambaran Proyek
+## Tahapan Analisis
 
-Tujuan utama adalah mengidentifikasi nasabah yang berpotensi melakukan churn (`Potential_Churn_2`) sehingga tim marketing atau operasional dapat memberikan intervensi (seperti penawaran khusus) tepat waktu.
+1. Pembersihan dan eksplorasi data.
+2. Feature engineering.
+3. Penanganan class imbalance.
+4. Pelatihan beberapa model.
+5. Evaluasi dengan fokus pada recall dan F1 kelas churn.
 
-## 🛠️ Alur Kerja (Workflow)
+## Feature Engineering
 
-### 1. Data Preprocessing & Feature Engineering
+- `Total_PH` — total produk yang dimiliki nasabah.
+- `Total_Balance` — total saldo seluruh produk.
+- `Funding_Share` — proporsi dana terhadap total saldo.
+- `Funding_to_Wealth_Ratio` — rasio dana terhadap produk wealth.
+- `Is_Single_Product` — indikator kepemilikan satu jenis produk.
 
-Kami menciptakan fitur-fitur baru untuk menangkap perilaku nasabah lebih dalam:
+## Model yang Dibandingkan
 
-* **Total_PH**: Jumlah total produk yang dimiliki nasabah (Funding, Loan, Wealth).
-* **Total_Balance**: Total saldo gabungan dari semua produk.
-* **Funding_Share**: Rasio saldo tabungan (funding) terhadap total saldo.
-* **Funding_to_Wealth_Ratio**: Rasio antara saldo tabungan dan investasi.
-* **Is_Single_Product**: Fitur biner untuk mendeteksi nasabah yang hanya memiliki satu jenis produk (biasanya risiko churn lebih tinggi).
-* **Standard Scaling**: Menyamakan skala untuk fitur numerik (`Balance_Funding`, `Balance_Loan`, `Balance_Wealth`).
+- Logistic Regression
+- Naive Bayes
+- Random Forest
+- XGBoost
+- CatBoost
 
-### 2. Penanganan Imbalance Data
+SMOTE atau SMOTENC digunakan sebagai bagian dari eksperimen untuk menangani distribusi kelas yang tidak seimbang.
 
-Dataset ini memiliki ketidakseimbangan kelas yang signifikan (kelas churn jauh lebih sedikit). Teknik yang digunakan:
+## Menjalankan Notebook
 
-* **SMOTE (Synthetic Minority Over-sampling Technique)**: Menghasilkan sampel sintetis untuk kelas minoritas agar model tidak bias ke kelas mayoritas.
-* **SMOTENC**: Digunakan khusus untuk data yang memiliki campuran fitur numerik dan kategorikal.
-
-### 3. Model Machine Learning
-
-Kami membandingkan beberapa algoritma untuk mendapatkan hasil terbaik:
-
-* **Logistic Regression**: Sebagai baseline model untuk melihat *Odds Ratio*.
-* **Naive Bayes**: Model statistik sederhana untuk perbandingan.
-* **Random Forest**: Algoritma ensemble untuk menangkap hubungan non-linear.
-* **XGBoost**: Dioptimalkan untuk performa tinggi dan kecepatan.
-* **CatBoost**: Digunakan untuk menangani fitur kategorikal secara otomatis dengan efisiensi tinggi.
-
-## 📊 Hasil & Insight
-
-### Fitur Paling Berpengaruh (Feature Importance)
-
-Berdasarkan model **Random Forest** dan **Logistic Regression**, faktor utama yang memengaruhi churn adalah:
-
-1. **Marital Status**: Nasabah yang berstatus *Married* dan *Single* menunjukkan koefisien yang berbeda terhadap potensi churn.
-2. **Activeness (Inactive)**: Nasabah yang tidak aktif memiliki kecenderungan lebih tinggi untuk churn.
-3. **Funding Share & Balance Wealth**: Besaran saldo dan bagaimana nasabah mengalokasikan uangnya antara tabungan dan investasi sangat berpengaruh.
-4. **Age**: Usia nasabah merupakan faktor demografis kunci.
-
-### Performa Model
-
-Model dievaluasi menggunakan **Classification Report** (Precision, Recall, F1-Score). Fokus utama adalah meningkatkan *Recall* pada kelas churn agar sesedikit mungkin nasabah yang berpotensi churn terlewat oleh model.
-
-## 🚀 Cara Menjalankan
-
-1. Pastikan library berikut terinstall:
 ```bash
-pip install pandas seaborn matplotlib scikit-learn imbalanced-learn xgboost catboost
-
+git clone https://github.com/Rhefanza/Maybank-Prediction-Churn-study-case-company-visit-.git
+cd Maybank-Prediction-Churn-study-case-company-visit-
+pip install pandas numpy matplotlib seaborn scikit-learn imbalanced-learn xgboost catboost jupyter
+jupyter notebook "mybank_(company_visit).ipynb"
 ```
 
+Dataset tidak disertakan. Sesuaikan path dataset di notebook sebelum menjalankan pipeline.
 
-2. Buka file `mybank_(company_visit).ipynb` di Google Colab atau Jupyter Notebook.
-3. Sesuaikan path dataset:
-```python
-df = pd.read_csv("path_ke_file/maybank_churn_dataset_v2_500k.csv")
+## Evaluasi
 
-```
+Gunakan confusion matrix, precision, recall, F1-score, dan ROC-AUC. Untuk kasus retensi, pemilihan threshold perlu mempertimbangkan biaya intervensi dan risiko nasabah churn yang terlewat.
 
+## Catatan
 
-
----
-
-**Next Steps**:
-
-* Melakukan Hyperparameter Tuning pada model XGBoost dan CatBoost.
-* Menganalisis lebih lanjut profil nasabah pada *top 10% probability churn*.
-
----
-
+Repositori ini merupakan studi kasus edukasional, bukan sistem keputusan produksi.
